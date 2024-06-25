@@ -33,8 +33,8 @@ SUBJ = {'Beatropie_001', 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Bea
   'Beatropie_016', 'Beatropie_018', 'Beatropie_019'};
 conds = {'BB' 'CT'};
 
-data=[]; mse_all=[];
-for isub = 2 %1:length(SUBJ)
+data=[];
+for isub = 1:length(SUBJ)
   for icond = 1:2
     filename = [SUBJ{isub} '_' conds{icond} '.xdf'];
     cfg=[]; % The cfg variable contains all the analysis settings that we will use.
@@ -114,11 +114,9 @@ for isub = 2 %1:length(SUBJ)
     save([outfile '_data.mat'], 'data');
     save([outfile '_mse.mat'], 'mse');
     writematrix(mse.sampen, [outfile '_mse.csv'])
-    mse_all = [mse_all; mse];
   end
 end
-writematrix(mse_all, [outfile '_mse.csv'])
-    
+
 %% plot topoplot of mse result
 mse.freq = mse.timescales;
 mse.dimord = 'chan_freq_time';
