@@ -2,7 +2,7 @@
 
 %% set up toolbox paths and data paths, so MATLAB knows where to find it
 % clear everything to start MATLAB fresh
-cd ~;restoredefaultpath; clear ft_hastoolbox
+restoredefaultpath; clear ft_hastoolbox
 
 % add fieldtrip and the entropy toolbox to the path, download from https://download.fieldtriptoolbox.org/
 ft_path = '/Users/kloosterman/Documents/MATLAB/fieldtrip-20240603';
@@ -13,7 +13,7 @@ mMSE_path = '/Users/kloosterman/Documents/GitHub/mMSE';
 addpath(mMSE_path)
 
 % add the FoPra scripts to the path, download from https://github.com/kloosterman/
-fopra_path = '/Users/kloosterman/Library/CloudStorage/Dropbox/PROJECTS/Teaching/23-24SS/FoPra_EEG/FoPra_flexbrain';
+fopra_path = '/Users/kloosterman/Library/CloudStorage/Dropbox/PROJECTS/Teaching/23-24SS/FoPra_EEG/FoPra_EEGanalysis';
 addpath(fopra_path)
 
 % put the path of your raw xdf data here
@@ -27,16 +27,19 @@ cd(datapath)
 
 % put filename of the xdf files that are in your datapath here, without .xdf extension
 % Beatropie_001_CT bis Beatropie_019_CT
-SUBJ = {'Beatropie_001', 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beatropie_005', ...
+
+SUBJ = {'Beatropie_001' 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beatropie_005', ...
   'Beatropie_006', 'Beatropie_007', 'Beatropie_008', 'Beatropie_009', 'Beatropie_010', ...
   'Beatropie_011', 'Beatropie_012', 'Beatropie_013', 'Beatropie_014', 'Beatropie_015', ...
   'Beatropie_016', 'Beatropie_018', 'Beatropie_019'};
-conds = {'BB' 'CT'};
+SUBJ = {'Beatropie_002_CT' 'Beatropie_002_CT' }; % visual triggers
 
-data=[];
+data=[]; mse_all=[];
 for isub = 1:length(SUBJ)
   for icond = 1:2
+    try
     filename = [SUBJ{isub} '_' conds{icond} '.xdf'];
+    disp(filename)
     cfg=[]; % The cfg variable contains all the analysis settings that we will use.
     % cfg.reref = 'yes';  % No rereferencing for now
     % cfg.refchannel = {'EEG_M1', 'EEG_M2'};
@@ -50,7 +53,11 @@ for isub = 1:length(SUBJ)
     %% make trials by hand visually using the databrowser ("visual")
     %% OR use the keyboard triggers sent during recording ("trigger")
 
-    trial_method = 'trigger'; % set this to either visual or trigger
+    if contains(filename, 'Beatropie_002_CT')
+      trial_method = 'visual'; % set this to either visual or trigger
+    else
+      trial_method = 'trigger'; % set this to either visual or trigger
+    end
     switch trial_method % this switches between the two trial methods
       case 'trigger' % these lines are run if trial_method is set to 'trigger';
         cfg=[];  % read triggers and cut trials out of the data
@@ -114,9 +121,14 @@ for isub = 1:length(SUBJ)
     save([outfile '_data.mat'], 'data');
     save([outfile '_mse.mat'], 'mse');
     writematrix(mse.sampen, [outfile '_mse.csv'])
+    mse_all = [mse_all; mse.sampen];
+    catch
+      warning(sprintf([filename ' gives errors']))
+    end
   end
 end
-
+writematrix(mse_all, [outfile '_mse.csv'])
+    
 %% plot topoplot of mse result
 mse.freq = mse.timescales;
 mse.dimord = 'chan_freq_time';

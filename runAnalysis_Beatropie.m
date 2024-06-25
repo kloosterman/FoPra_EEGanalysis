@@ -28,11 +28,11 @@ cd(datapath)
 % put filename of the xdf files that are in your datapath here, without .xdf extension
 % Beatropie_001_CT bis Beatropie_019_CT
 
-SUBJ = {'Beatropie_001' 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beatropie_005', ...
-  'Beatropie_006', 'Beatropie_007', 'Beatropie_008', 'Beatropie_009', 'Beatropie_010', ...
-  'Beatropie_011', 'Beatropie_012', 'Beatropie_013', 'Beatropie_014', 'Beatropie_015', ...
-  'Beatropie_016', 'Beatropie_018', 'Beatropie_019'};
-% SUBJ = {'Beatropie_001' }; % visual triggers
+% SUBJ = {'Beatropie_001' 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beatropie_005', ...
+%   'Beatropie_006', 'Beatropie_007', 'Beatropie_008', 'Beatropie_009', 'Beatropie_010', ...
+%   'Beatropie_011', 'Beatropie_012', 'Beatropie_013', 'Beatropie_014', 'Beatropie_015', ...
+%   'Beatropie_016', 'Beatropie_018', 'Beatropie_019'};
+SUBJ = {'Beatropie_002_CT' 'Beatropie_011_CT' 'Beatropie_018'}; % visual triggers
 
 data=[]; mse_all=[];
 for isub = 1:length(SUBJ)
@@ -53,7 +53,15 @@ for isub = 1:length(SUBJ)
     %% make trials by hand visually using the databrowser ("visual")
     %% OR use the keyboard triggers sent during recording ("trigger")
 
-    trial_method = 'trigger'; % set this to either visual or trigger
+    if contains(filename, 'Beatropie_002') && strcmp(conds{icond}, 'CT')
+      trial_method = 'visual'; % set this to either visual or trigger
+    elseif contains(filename, 'Beatropie_011') && strcmp(conds{icond}, 'CT')
+      trial_method = 'visual'; % set this to either visual or trigger
+    elseif contains(filename, 'Beatropie_018')
+      trial_method = 'visual'; % set this to either visual or trigger
+    else
+      trial_method = 'trigger'; % set this to either visual or trigger
+    end
     switch trial_method % this switches between the two trial methods
       case 'trigger' % these lines are run if trial_method is set to 'trigger';
         cfg=[];  % read triggers and cut trials out of the data
@@ -117,7 +125,7 @@ for isub = 1:length(SUBJ)
     save([outfile '_data.mat'], 'data');
     save([outfile '_mse.mat'], 'mse');
     writematrix(mse.sampen, [outfile '_mse.csv'])
-    mse_all = [mse_all; mse];
+    mse_all = [mse_all; mse.sampen];
     catch
       warning(sprintf([filename ' gives errors']))
     end
