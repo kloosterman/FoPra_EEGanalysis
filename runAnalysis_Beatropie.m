@@ -13,7 +13,7 @@ mMSE_path = '/Users/kloosterman/Documents/GitHub/mMSE';
 addpath(mMSE_path)
 
 % add the FoPra scripts to the path, download from https://github.com/kloosterman/
-fopra_path = '/Users/kloosterman/Library/CloudStorage/Dropbox/PROJECTS/Teaching/23-24SS/FoPra_EEG/FoPra_flexbrain';
+fopra_path = '/Users/kloosterman/Library/CloudStorage/Dropbox/PROJECTS/Teaching/23-24SS/FoPra_EEG/FoPra_EEGanalysis';
 addpath(fopra_path)
 
 % put the path of your raw xdf data here
@@ -37,6 +37,7 @@ SUBJ = {'Beatropie_001' 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beat
 data=[]; mse_all=[];
 for isub = 1:length(SUBJ)
   for icond = 1:2
+    try
     filename = [SUBJ{isub} '_' conds{icond} '.xdf'];
     disp(filename)
     cfg=[]; % The cfg variable contains all the analysis settings that we will use.
@@ -117,6 +118,9 @@ for isub = 1:length(SUBJ)
     save([outfile '_mse.mat'], 'mse');
     writematrix(mse.sampen, [outfile '_mse.csv'])
     mse_all = [mse_all; mse];
+    catch
+      warning(sprintf([filename ' gives errors']))
+    end
   end
 end
 writematrix(mse_all, [outfile '_mse.csv'])
