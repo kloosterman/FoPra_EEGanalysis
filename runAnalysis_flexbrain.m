@@ -32,7 +32,11 @@ SUBJ = {'FlexBrain VP1' 'FlexBrain VP2' 'FlexBrain VP4' 'FlexBrain VP5' 'FlexBra
   }; %  'FlexBrain VP13' 
 
 data=[];
+<<<<<<< Updated upstream
 for isub = 9%:length(SUBJ)
+=======
+for isub = 10:length(SUBJ)
+>>>>>>> Stashed changes
   cfg=[]; % The cfg variable contains all the analysis settings that we will use.
   % cfg.reref = 'yes';  % No rereferencing for now
   % cfg.refchannel = {'EEG_M1', 'EEG_M2'};

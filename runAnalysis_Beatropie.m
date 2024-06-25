@@ -2,7 +2,7 @@
 
 %% set up toolbox paths and data paths, so MATLAB knows where to find it
 % clear everything to start MATLAB fresh
-cd ~;restoredefaultpath; clear ft_hastoolbox
+restoredefaultpath; clear ft_hastoolbox
 
 % add fieldtrip and the entropy toolbox to the path, download from https://download.fieldtriptoolbox.org/
 ft_path = '/Users/kloosterman/Documents/MATLAB/fieldtrip-20240603';
@@ -27,6 +27,7 @@ cd(datapath)
 
 % put filename of the xdf files that are in your datapath here, without .xdf extension
 % Beatropie_001_CT bis Beatropie_019_CT
+<<<<<<< Updated upstream
 SUBJ = {'Beatropie_001', 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beatropie_005', ...
   'Beatropie_006', 'Beatropie_007', 'Beatropie_008', 'Beatropie_009', 'Beatropie_010', ...
   'Beatropie_011', 'Beatropie_012', 'Beatropie_013', 'Beatropie_014', 'Beatropie_015', ...
@@ -37,6 +38,19 @@ data=[]; mse_all=[];
 for isub = 2 %1:length(SUBJ)
   for icond = 1:2
     filename = [SUBJ{isub} '_' conds{icond} '.xdf'];
+=======
+SUBJ = {'Beatropie_001' 'Beatropie_002', 'Beatropie_003', 'Beatropie_004', 'Beatropie_005', ...
+  'Beatropie_006', 'Beatropie_007', 'Beatropie_008', 'Beatropie_009', 'Beatropie_010', ...
+  'Beatropie_011', 'Beatropie_012', 'Beatropie_013', 'Beatropie_014', 'Beatropie_015', ...
+  'Beatropie_016', 'Beatropie_018', 'Beatropie_019'};
+% SUBJ = {'Beatropie_001' }; % visual triggers
+
+data=[]; mse_all=[];
+for isub = 1:length(SUBJ)
+  for icond = 1:2
+    filename = [SUBJ{isub} '_' conds{icond} '.xdf'];
+    disp(filename)
+>>>>>>> Stashed changes
     cfg=[]; % The cfg variable contains all the analysis settings that we will use.
     % cfg.reref = 'yes';  % No rereferencing for now
     % cfg.refchannel = {'EEG_M1', 'EEG_M2'};
@@ -117,7 +131,11 @@ for isub = 2 %1:length(SUBJ)
     mse_all = [mse_all; mse];
   end
 end
+<<<<<<< Updated upstream
 writematrix(mse_all, [outfile '_mse.csv'])
+=======
+% writematrix(mse_all, [outfile '_mse.csv'])
+>>>>>>> Stashed changes
     
 %% plot topoplot of mse result
 mse.freq = mse.timescales;
