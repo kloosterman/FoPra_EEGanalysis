@@ -32,13 +32,14 @@ cd(datapath)
 %   'Beatropie_006', 'Beatropie_007', 'Beatropie_008', 'Beatropie_009', 'Beatropie_010', ...
 %   'Beatropie_011', 'Beatropie_012', 'Beatropie_013', 'Beatropie_014', 'Beatropie_015', ...
 %   'Beatropie_016', 'Beatropie_018', 'Beatropie_019'};
-SUBJ = {'Beatropie_002_CT' 'Beatropie_011_CT' 'Beatropie_018'}; % visual triggers
+SUBJ = {'Beatropie_002' 'Beatropie_011' 'Beatropie_018'}; % visual triggers
+conds = {'BB' 'CT'};
 
 data=[]; mse_all=[];
 for isub = 1:length(SUBJ)
   for icond = 1:2
-    try
     filename = [SUBJ{isub} '_' conds{icond} '.xdf'];
+    try
     disp(filename)
     cfg=[]; % The cfg variable contains all the analysis settings that we will use.
     % cfg.reref = 'yes';  % No rereferencing for now
