@@ -28,9 +28,13 @@ cd(datapath)
 % put filename of the xdf files that are in your datapath here, without .xdf extension
 % Beatropie_001_CT bis Beatropie_019_CT
 
-SUBJ = {'01' '02' '03' '04' '06' '07' '08' '09' '10' '12' '13' '14' '15' '16'}; % visual triggers
-SUBJ = {'11' '12' '13' '14' '15' '16'}; % visual triggers
+% SUBJ = {'01' '02' '03' '04' '06' '07' '08' '09' '10' '12' '13' '14' '15' '16'}; % visual triggers
+% SUBJ = {'11' '12' '13' '14' '15' '16'}; % visual triggers
+SUBJ = {'3' '11' '13' }; % visual triggers necessary
+% SUBJ = { '11' '13' }; % visual triggers
+% SUBJ = {'06' '16' }; % visual triggers
 % '05' '11' to be done
+% 6 16 task close to 0;
 
 data=[]; mse_all=[];
 for isub = 1:length(SUBJ)
@@ -64,15 +68,16 @@ for isub = 1:length(SUBJ)
   % 340s – 350s Bild test
   % 340s – 500s Wörter generieren
   % 500s – 1450s Durchlauf (unusual uses task)
+  % ** task 500 – 1410 **
 
-  trial_method = 'predefined';
-  switch trial_method % this switches between the two trial methods
+  trial_method = 'visual';
+  switch trial_method % this switches between the trial methods
     case 'predefined'
       % hdr = ft_read_header(cfg.dataset);
       runduration = round(data.sampleinfo(2)/data.fsample);
       trl = ...
         [10 310 0; % resting state
-        500 runduration 0]; % unusual uses task
+        500 runduration-20 0]; % unusual uses task
       cfg=[];
       cfg.trl = round(trl.* data.fsample); % trl has the start and end samples of your trials
       data = ft_redefinetrial(cfg, data); % this gives you trials for each time the spacebar was pressed
