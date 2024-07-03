@@ -30,9 +30,9 @@ cd(datapath)
 
 % SUBJ = {'01' '02' '03' '04' '06' '07' '08' '09' '10' '12' '13' '14' '15' '16'}; % visual triggers
 % SUBJ = {'11' '12' '13' '14' '15' '16'}; % visual triggers
-SUBJ = {'3' '11' '13' }; % visual triggers necessary
+% SUBJ = {'3' '11' '13' }; % visual triggers necessary
 % SUBJ = { '11' '13' }; % visual triggers
-% SUBJ = {'06' '16' }; % visual triggers
+SUBJ = {'06' '16' }; % visual triggers
 % '05' '11' to be done
 % 6 16 task close to 0;
 
